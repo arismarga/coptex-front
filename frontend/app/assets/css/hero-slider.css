@@ -1,0 +1,235 @@
+.hero-slider {
+  position: relative;
+  width: 100%;
+}
+
+/* κάθε slide */
+.hero-slide {
+  position: relative;
+  width: 100%;
+  height: 62vh;
+  min-height: 520px;
+  overflow: hidden;
+}
+
+/* background image (Next Image με fill) */
+.hero-slide__image {
+  object-fit: cover;
+}
+
+/* σκοτεινό gradient overlay για contrast */
+.hero-slide__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.25) 40%,
+    rgba(0, 0, 0, 0) 70%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* container για padding */
+.hero-slide__container {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: clamp(24px, 4vw, 56px);
+}
+
+/* αριστερό "glass" panel */
+.hero-slide__panel {
+  width: min(520px, 92%);
+  background: rgba(48, 48, 47, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: clamp(24px, 3vw, 40px);
+}
+
+/* τίτλος */
+.hero-slide__title {
+  margin: 0 0 18px 0;
+  line-height: 1.20;
+  letter-spacing: 0px;
+  font-weight: 800;
+  text-transform: inherit;
+  font-size: clamp(25px, 4.2vw, 28px);
+}
+
+/* κάθε γραμμή τίτλου */
+.hero-slide__title-line {
+  display: block;
+  color: #ffffff;
+}
+
+/* highlight γραμμή (π.χ. CONNECT) */
+.hero-slide__title-line--highlight {
+  color: #d2ad72;
+}
+
+/* κείμενο */
+.hero-slide__text {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 22px;
+}
+
+.hero-slide__text p {
+  margin: 0 0 10px 0;
+}
+
+/* CTA button */
+.hero-slide__cta {
+  display: inline-block;
+  padding: 12px 18px;
+  background: #a7762b;
+  color: #ffffff;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+}
+
+/* arrows κάτω δεξιά */
+.hero-slide__arrows {
+  position: absolute;
+  right: 28px;
+  bottom: 22px;
+  display: flex;
+  gap: 14px;
+  z-index: 3;
+}
+
+.hero-slide__arrow {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 255, 255, 0.75);
+  background: rgba(0, 0, 0, 0.25);
+  color: #ffffff;
+  font-size: 32px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.hero-slide__arrow svg {
+  margin: 0 auto;
+}
+
+.hero-slide__arrow:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.hero-slide__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+/* κάνουμε το slide base layer σωστό */
+.hero-slide {
+  position: relative;
+  width: 100%;
+  height: 62vh;
+  min-height: 520px;
+  overflow: hidden;
+}
+
+/* το Image fill */
+.hero-slide__image {
+  object-fit: cover;
+  transform: scale(1.05); /* λίγο “cinematic” */
+}
+
+/* το panel: default state (μη active) */
+.hero-slide__panel {
+  position: relative;
+  overflow: hidden;              /* για να δουλέψει η “κουρτίνα” */
+  will-change: transform, opacity;
+}
+
+/* όταν το slide γίνει active: το panel μπαίνει από αριστερά */
+.swiper-slide-active .hero-slide__panel {
+  animation: panelIn 700ms ease-out both;
+}
+
+/* “κουρτίνα” reveal: ένα κίτρινο layer περνάει και αποκαλύπτει */
+.swiper-slide-active .hero-slide__panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(167, 118, 43, 0.88);
+  transform: translateX(-105%);
+  animation: curtainSwipe 900ms ease-in-out both;
+  z-index: 2;            /* πάνω από το περιεχόμενο */
+  pointer-events: none;
+}
+
+/* το περιεχόμενο του panel να κάτσει πάνω από background αλλά κάτω από curtain */
+.hero-slide__panel > * {
+  position: relative;
+  z-index: 3;
+}
+
+/* Keyframes */
+@keyframes panelIn {
+  from {
+    transform: translateX(-28px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Κουρτίνα: περνάει από αριστερά προς δεξιά και φεύγει */
+@keyframes curtainSwipe {
+  0% {
+    transform: translateX(-105%);
+  }
+  45% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(105%);
+  }
+}
+
+/* Bonus: τα arrows να εμφανίζονται λίγο “smooth” */
+.hero-slide__arrows {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 350ms ease, transform 350ms ease;
+}
+
+.swiper-slide-active .hero-slide__arrows {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 768px) {
+  .hero-slide {
+    height: auto;
+    min-height: 520px;
+  }
+
+  .hero-slide__panel {
+    width: 100%;
+  }
+
+  .hero-slide__arrows {
+    right: 16px;
+    bottom: 16px;
+  }
+}
